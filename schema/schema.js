@@ -92,8 +92,29 @@ const Mutation = new GraphQLObjectType({
                 });
                 return invoice.save();
             }
+        },
+        addInvoiceItem: {
+            type: InvoiceItemType,
+            args: {
+                item: { type: GraphQLString },
+                currency: { type: GraphQLString },
+                description: { type: GraphQLString },
+                amount: { type: GraphQLFloat },
+                invoiceId: { type: GraphQLID }
+            },
+            resolve(parent, args){
+                let invoiceItem = new InvoiceItem({
+                    item: args.item,
+                    currency: args.currency,
+                    description: args.description,
+                    amount: args.amount,
+                    invoiceId: args.invoiceId
+                });
+                return invoiceItem.save();
+            }
         }
     }
+
 });
 
 module.exports = new GraphQLSchema({
